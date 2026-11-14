@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zverservice — автосервис в Алматы</title>
+<meta name="description" content="Zverservice — автосервис на Самал-2 в Алматы: шиномонтаж, замена масел, диагностика, ремонт ходовой. Рейтинг 5.0 в 2ГИС.">
+<meta name="theme-color" content="#0e0f11">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;700;800&display=swap&subset=cyrillic-ext" rel="stylesheet">
+<script>
+(function(){var t;try{t=localStorage.getItem('zv-theme')}catch(e){}
+if(!t){t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}
+document.documentElement.setAttribute('data-theme',t);
+var l;try{l=localStorage.getItem('zv-lang')}catch(e){}
+if(l==='kk'){document.documentElement.setAttribute('lang','kk')}})();
+</script>
+<style>
+:root{
+  --accent:#ff6b1a; --accent-2:#ffb21a; --ink-on-accent:#121212;
+  --radius:22px; --ease:cubic-bezier(.7,0,.25,1);
+  --display:'Unbounded',system-ui,sans-serif; --body:'Onest',system-ui,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#0e0f11; --bg-2:#141619; --card:#1a1d21; --card-2:#22262b;
+  --text:#f3f1ec; --muted:#9a9ea6; --line:rgba(255,255,255,.08);
+  --shadow:0 30px 60px -30px rgba(0,0,0,.8); --hero-fade:rgba(14,15,17,1);
+  color-scheme:dark;
+}
+[data-theme="light"]{
+  --accent-text:#c2470a;
+  --bg:#f3f1ec; --bg-2:#e9e6df; --card:#ffffff; --card-2:#f7f5f1;
+  --text:#141517; --muted:#5b5f67; --line:rgba(20,21,23,.1);
+  --accent:#ec5a0b;
+  --shadow:0 30px 60px -34px rgba(40,30,20,.35); --hero-fade:rgba(243,241,236,1);
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:hidden;transition:background-color .4s,color .4s}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{width:min(1200px,100% - 40px);margin-inline:auto}
+::selection{background:var(--accent);color:var(--ink-on-accent)}
+
+/* ---------- i18n swap animation ---------- */
+[data-i18n]{transition:opacity .22s ease,filter .22s ease,transform .22s ease;display:inline-block}
+.block[data-i18n],p[data-i18n],h1[data-i18n],h2[data-i18n],h3[data-i18n]{display:block}
+body.lang-out [data-i18n],body.lang-out .tab[data-i18n],body.lang-out .nav-links a[data-i18n]{transition:opacity .22s ease,filter .22s ease,transform .22s ease;opacity:0;filter:blur(8px);transform:translateY(.35em)}
+body.lang-in [data-i18n]{animation:langIn .45s var(--ease) both}
+@keyframes langIn{from{opacity:0;filter:blur(8px);transform:translateY(-.35em)}to{opacity:1;filter:none;transform:none}}
+
+/* ---------- theme view transition ---------- */
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-old(root){z-index:1}
+.no-tr,.no-tr *,.no-tr *::before,.no-tr *::after{transition:none!important}
+::view-transition-new(root){z-index:2}
+
+/* ---------- header ---------- */
+header{position:fixed;inset:0 0 auto;z-index:50;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
+header.scrolled{background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border-color:var(--line)}
+.nav{display:flex;align-items:center;gap:28px;height:76px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;letter-spacing:-.02em;font-size:19px}
+.logo-mark{width:38px;height:38px;border-radius:12px;background:var(--accent);display:grid;place-items:center;color:var(--ink-on-accent);flex:none}
+.logo small{display:block;font-family:var(--body);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:-2px}
+.nav-links{display:flex;gap:26px;margin-left:auto;font-weight:500;font-size:15px}
+.nav-links a{position:relative;color:var(--muted);transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.controls{display:flex;align-items:center;gap:10px}
+
+/* language switch */
+.lang{position:relative;display:flex;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.06em}
+.lang span{position:relative;z-index:1;width:42px;height:30px;display:grid;place-items:center;transition:color .35s}
+.lang .thumb{position:absolute;z-index:0;top:4px;left:4px;width:42px;height:30px;border-radius:999px;background:var(--accent);transition:transform .5s cubic-bezier(.65,-0.2,.25,1.3)}
+.lang span.ru{color:var(--ink-on-accent)}
+.lang span.kk{color:var(--muted)}
+html[lang="kk"] .lang .thumb{transform:translateX(42px)}
+html[lang="kk"] .lang span.ru{color:var(--muted)}
+html[lang="kk"] .lang span.kk{color:var(--ink-on-accent)}
+
+/* theme switch */
+.theme{width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;position:relative}
+.theme svg{width:20px;height:20px;transition:transform .7s var(--ease)}
+.theme .sun-rays{transform-origin:center;transition:transform .7s var(--ease),opacity .4s}
+.theme .moon-mask{transition:transform .7s var(--ease)}
+[data-theme="dark"] .theme svg{transform:rotate(40deg)}
+[data-theme="dark"] .theme .sun-rays{transform:scale(0) rotate(-90deg);opacity:0}
+[data-theme="dark"] .theme .moon-mask{transform:translate(-3.5px,3.5px)}
+[data-theme="light"] .theme svg{transform:rotate(0deg)}
+[data-theme="light"] .theme .moon-mask{transform:translate(8px,-8px)}
+.burger{display:none;width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--line);place-items:center}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 26px;border-radius:999px;font-weight:600;font-size:16px;transition:transform .25s var(--ease),box-shadow .25s,background .25s;white-space:nowrap}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-primary{background:var(--accent);color:var(--ink-on-accent);box-shadow:0 14px 30px -14px var(--accent)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 20px 36px -14px var(--accent)}
+.btn-ghost{border:1.5px solid var(--line);background:color-mix(in srgb,var(--card) 60%,transparent);backdrop-filter:blur(8px)}
+.btn-ghost:hover{border-color:var(--text)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding:140px 0 70px;isolation:isolate;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:-2}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:60% 40%;transform:scale(1.08);animation:heroZoom 14s ease-out forwards}
+@keyframes heroZoom{to{transform:scale(1)}}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(90deg,var(--hero-fade) 0%,color-mix(in srgb,var(--hero-fade) 88%,transparent) 38%,color-mix(in srgb,var(--hero-fade) 25%,transparent) 75%),
+  linear-gradient(0deg,var(--hero-fade) 0%,transparent 40%)}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:color-mix(in srgb,var(--card) 75%,transparent);border:1px solid var(--line);font-size:14px;font-weight:500;backdrop-filter:blur(10px)}
+.chip .stars{color:var(--accent-2);letter-spacing:1px}
+.chip.award{border-color:color-mix(in srgb,var(--accent) 50%,transparent)}
+.chip.award svg{color:var(--accent)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,7.2vw,96px);line-height:.98;letter-spacing:-.035em;max-width:14ch}
+h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{margin-top:26px;max-width:560px;font-size:clamp(17px,1.6vw,20px);color:var(--muted)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.hero-meta{display:flex;gap:28px;margin-top:44px;color:var(--muted);font-size:14px;flex-wrap:wrap}
+.hero-meta b{display:block;color:var(--text);font-size:15px;font-weight:600}
+
+/* ---------- marquee ---------- */
+.marquee{border-block:1px solid var(--line);background:var(--bg-2);overflow:hidden;padding:20px 0}
+.marquee-track{display:flex;gap:44px;width:max-content;animation:scroll 50s linear infinite;font-family:var(--display);font-weight:700;font-size:22px;color:var(--muted);text-transform:uppercase;letter-spacing:-.01em}
+.marquee-track span{display:flex;align-items:center;gap:44px}
+.marquee-track span::after{content:"✦";color:var(--accent);font-size:14px}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- sections ---------- */
+section{padding:120px 0}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-text,var(--accent));margin-bottom:18px}
+.eyebrow::before{content:"";width:24px;height:2px;background:currentColor}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.4vw,56px);line-height:1.04;letter-spacing:-.03em;max-width:18ch}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:56px;flex-wrap:wrap}
+.sec-head p{max-width:420px;color:var(--muted)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
+.stat{background:var(--bg);padding:34px 30px}
+.stat .num{font-family:var(--display);font-weight:800;font-size:clamp(34px,4vw,52px);letter-spacing:-.04em;line-height:1}
+.stat .num sup{font-size:.45em;color:var(--accent);vertical-align:top;margin-left:4px}
+.stat .lbl{margin-top:12px;color:var(--muted);font-size:15px}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.svc{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:30px;min-height:270px;display:flex;flex-direction:column;overflow:hidden;transition:transform .4s var(--ease),border-color .3s}
+.svc::before{content:"";position:absolute;inset:auto -40% -60% auto;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 35%,transparent),transparent 70%);opacity:0;transition:opacity .4s}
+.svc:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.svc:hover::before{opacity:1}
+.svc .ico{width:54px;height:54px;border-radius:16px;background:var(--card-2);border:1px solid var(--line);display:grid;place-items:center;color:var(--accent);margin-bottom:auto}
+.svc .ico svg{width:26px;height:26px}
+.svc h3{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.02em;margin-top:40px}
+.svc p{color:var(--muted);margin-top:10px;font-size:15.5px}
+.svc .n{position:absolute;top:26px;right:28px;font-family:var(--display);font-weight:700;font-size:13px;color:var(--muted)}
+
+/* why */
+.why{background:var(--bg-2)}
+.why-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:60px;align-items:center}
+.why-img{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:4/4.4;box-shadow:var(--shadow)}
+.why-img img{width:100%;height:100%;object-fit:cover}
+.why-img .tag{position:absolute;left:18px;bottom:18px;right:18px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:16px 18px;display:flex;gap:14px;align-items:center;font-size:15px}
+.why-img .tag b{font-family:var(--display);font-size:26px;color:var(--accent)}
+.why-list{display:grid;gap:14px;margin-top:40px}
+.why-item{display:grid;grid-template-columns:48px 1fr;gap:18px;padding:22px;border-radius:18px;background:var(--card);border:1px solid var(--line)}
+.why-item .ico{width:48px;height:48px;border-radius:14px;background:var(--accent);color:var(--ink-on-accent);display:grid;place-items:center}
+.why-item .ico svg{width:22px;height:22px}
+.why-item h3{font-size:18px;font-weight:700}
+.why-item p{color:var(--muted);font-size:15.5px;margin-top:4px}
+
+/* prices */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.tab{height:46px;padding:0 20px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:600;font-size:15px;transition:background .3s,color .3s,border-color .3s}
+.tab[aria-selected="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.price-panel{display:none;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:10px 30px}
+.price-panel.active{display:block;animation:panelIn .5s var(--ease)}
+@keyframes panelIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.row{display:flex;align-items:baseline;gap:14px;padding:18px 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border-bottom:0}
+.row .name{font-weight:500}
+.row .dots{flex:1;border-bottom:2px dotted var(--line);transform:translateY(-4px)}
+.row .val{font-family:var(--display);font-weight:700;font-size:16px;white-space:nowrap}
+.price-note{margin-top:18px;color:var(--muted);font-size:14.5px;display:flex;gap:10px;align-items:center}
+.price-note svg{width:18px;height:18px;color:var(--accent);flex:none}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:14px}
+.gallery button{position:relative;border-radius:18px;overflow:hidden;background:var(--card)}
+.gallery img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease),filter .4s}
+.gallery button:hover img{transform:scale(1.06)}
+.gallery .g1{grid-column:span 2;grid-row:span 2}
+.gallery .g2{grid-row:span 2}
+.gallery .g5{grid-column:span 2}
+.lightbox{position:fixed;inset:0;z-index:100;background:rgba(5,5,6,.92);display:grid;place-items:center;padding:30px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s,visibility 0s .35s}
+.lightbox.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .35s}
+.lightbox img{max-height:86vh;max-width:min(1100px,100%);border-radius:16px;transform:scale(.94);transition:transform .45s var(--ease)}
+.lightbox.open img{transform:none}
+.lightbox .x{position:absolute;top:20px;right:20px;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:26px}
+
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.rev{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column;gap:18px}
+.rev .stars{color:var(--accent-2);letter-spacing:2px}
+.rev q{quotes:none;font-size:16.5px;line-height:1.55;flex:1}
+.rev .who{display:flex;align-items:center;gap:12px;font-size:14.5px;color:var(--muted)}
+.rev .av{width:40px;height:40px;border-radius:50%;background:var(--card-2);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;color:var(--text)}
+.rev .who b{display:block;color:var(--text);font-weight:600}
+.rev-foot{margin-top:30px;display:flex;justify-content:center}
+
+/* booking + contacts */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:40px}
+.panel h2{font-size:clamp(28px,3.2vw,42px)}
+.panel > p{color:var(--muted);margin-top:12px}
+form{display:grid;gap:14px;margin-top:30px}
+label{display:grid;gap:8px;font-size:14px;font-weight:600;color:var(--muted)}
+input,select{height:56px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--text);padding:0 18px;font:inherit;font-size:16px;transition:border-color .2s,box-shadow .2s;width:100%}
+input:focus,select:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+form .btn{justify-content:center;margin-top:6px}
+.info{position:relative;overflow:hidden;background:#111;color:#f3f1ec;border-color:transparent;isolation:isolate}
+.info::before{content:"";position:absolute;inset:0;z-index:-1;background-image:var(--night);background-size:cover;background-position:center;filter:saturate(1.1)}
+.info::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(10,10,12,.72),rgba(10,10,12,.94) 60%)}
+.info .eyebrow{color:var(--accent-2)}
+.info-list{display:grid;gap:22px;margin-top:30px}
+.info-item{display:grid;grid-template-columns:44px 1fr;gap:16px}
+.info-item .ico{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);display:grid;place-items:center;color:var(--accent-2)}
+.info-item .ico svg{width:20px;height:20px}
+.info-item small{display:block;color:rgba(243,241,236,.6);font-size:13px;text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.info-item a,.info-item span.v{font-size:18px;font-weight:600}
+.info-item a:hover{color:var(--accent-2)}
+.info .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+.info .btn-ghost{color:#f3f1ec;border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+
+footer{padding:40px 0 50px;border-top:1px solid var(--line);color:var(--muted);font-size:14.5px}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.foot .socials{display:flex;gap:10px}
+.foot .socials a{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:background .2s,color .2s}
+.foot .socials a:hover{background:var(--accent);color:var(--ink-on-accent)}
+.foot .socials svg{width:20px;height:20px}
+
+/* floating whatsapp */
+.fab{position:fixed;right:20px;bottom:20px;z-index:60;width:60px;height:60px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(37,211,102,.7);transition:transform .3s var(--ease)}
+.fab:hover{transform:scale(1.08)}
+.fab svg{width:30px;height:30px}
+.fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #25d366;animation:ping 2.4s infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.6);opacity:0}}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.svc.rv.in{transition:transform .4s var(--ease),border-color .3s,opacity .9s var(--ease);transition-delay:0s!important}
+.rev.rv.in{transition-delay:0s!important}
+
+/* mobile menu */
+.mnav{position:fixed;inset:76px 0 auto;z-index:49;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 20px 24px;display:none;flex-direction:column}
+.mnav a{padding:16px 0;border-bottom:1px solid var(--line);font-family:var(--display);font-weight:700;font-size:20px}
+.mnav.open{display:flex;animation:panelIn .35s var(--ease)}
+
+@media (max-width:980px){
+  .nav-links{display:none}
+  .burger{display:grid}
+  .controls{margin-left:auto}
+  .services,.reviews{grid-template-columns:1fr 1fr}
+  .why-grid,.contact-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .gallery{grid-template-columns:1fr 1fr;grid-auto-rows:180px}
+  .gallery .g5{grid-column:span 2}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  section{padding:84px 0}
+  .logo small{display:none}
+  .nav{gap:10px}
+  .controls{gap:6px}
+  .logo{font-size:16px}
+  .logo-mark{width:34px;height:34px}
+  .lang span,.lang .thumb{width:34px}
+  html[lang="kk"] .lang .thumb{transform:translateX(34px)}
+  .theme,.burger{width:38px;height:38px}
+  .services,.reviews{grid-template-columns:1fr}
+  .svc{min-height:0}
+  .svc h3{margin-top:22px}
+  .two{grid-template-columns:1fr}
+  .panel{padding:26px}
+  .price-panel{padding:4px 20px}
+  .row{flex-wrap:wrap;gap:4px 12px}
+  .row .dots{display:none}
+  .row .val{margin-left:auto}
+  .hero{padding-bottom:50px}
+  .hero::before{background:linear-gradient(0deg,var(--hero-fade) 8%,color-mix(in srgb,var(--hero-fade) 70%,transparent) 60%,color-mix(in srgb,var(--hero-fade) 40%,transparent))}
+  .btn{height:52px;padding:0 22px}
+  .hero-cta .btn{flex:1;justify-content:center}
+  .gallery .g1{grid-column:span 2}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#top" class="logo" aria-label="Zverservice">
+      <span class="logo-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 20 11 4M11.5 20 16.5 4M17 20l3-9"/></svg></span>
+      <span>ZVERSERVICE<small data-i18n="logoSub">Автосервис · Алматы</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#services" data-i18n="navServices">Услуги</a>
+      <a href="#prices" data-i18n="navPrices">Цены</a>
+      <a href="#gallery" data-i18n="navGallery">Работы</a>
+      <a href="#reviews" data-i18n="navReviews">Отзывы</a>
+      <a href="#contacts" data-i18n="navContacts">Контакты</a>
+    </nav>
+    <div class="controls">
+      <button class="lang" id="langBtn" aria-label="Сменить язык / Тілді ауыстыру">
+        <i class="thumb"></i><span class="ru">RU</span><span class="kk">KZ</span>
+      </button>
+      <button class="theme" id="themeBtn" aria-label="Сменить тему">
+        <svg viewBox="0 0 24 24" fill="none">
+          <mask id="mm"><rect width="24" height="24" fill="#fff"/><circle class="moon-mask" cx="19" cy="5" r="7" fill="#000"/></mask>
+          <circle cx="12" cy="12" r="5.2" fill="currentColor" mask="url(#mm)"/>
+          <g class="sun-rays" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1.5v2.2M12 20.3v2.2M1.5 12h2.2M20.3 12h2.2M4.6 4.6l1.5 1.5M17.9 17.9l1.5 1.5M4.6 19.4l1.5-1.5M17.9 6.1l1.5-1.5"/></g>
+        </svg>
+      </button>
+      <button class="burger" id="burger" aria-label="Меню"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+</header>
+<nav class="mnav" id="mnav">
+  <a href="#services" data-i18n="navServices">Услуги</a>
+  <a href="#prices" data-i18n="navPrices">Цены</a>
+  <a href="#gallery" data-i18n="navGallery">Работы</a>
+  <a href="#reviews" data-i18n="navReviews">Отзывы</a>
+  <a href="#contacts" data-i18n="navContacts">Контакты</a>
+</nav>
+
+<main id="top">
+<section class="hero">
+  <div class="hero-bg"><img src="{{hero}}" alt="Автомобиль в боксе Zverservice"></div>
+  <div class="wrap">
+    <div class="badges">
+      <span class="chip"><span class="stars">★★★★★</span> <span data-i18n="chipRating">5.0 в 2ГИС · 304 оценки</span></span>
+      <span class="chip award"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></svg><span data-i18n="chipAward">Лучший автосервис 2025 — премия 2ГИС</span></span>
+    </div>
+    <h1 data-i18n="heroTitle">Чиним честно.<br><em>Делаем быстро.</em></h1>
+    <p class="lead" data-i18n="heroLead">Шиномонтаж, замена масел, диагностика и ремонт ходовой для любых марок — от Lada до Tesla. Снимаем на видео, что меняем и почему.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://wa.me/77072625552" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>
+        <span data-i18n="ctaWa">Записаться в WhatsApp</span>
+      </a>
+      <a class="btn btn-ghost" href="tel:+77072625552">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+        <span>+7 707 262 55 52</span>
+      </a>
+    </div>
+    <div class="hero-meta">
+      <div><b data-i18n="metaAddrV">Самал-2, 98/1</b><span data-i18n="metaAddr">Медеуский район</span></div>
+      <div><b>10:00 — 20:00</b><span data-i18n="metaTime">по предварительной записи</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marquee"></div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="stats rv">
+      <div class="stat"><div class="num">5.0<sup>★</sup></div><div class="lbl" data-i18n="st1">средний рейтинг в 2ГИС</div></div>
+      <div class="stat"><div class="num" data-count="304">0</div><div class="lbl" data-i18n="st2">оценок от клиентов</div></div>
+      <div class="stat"><div class="num"><span data-count="60">0</span><sup>+</sup></div><div class="lbl" data-i18n="st3">марок авто обслуживаем</div></div>
+      <div class="stat"><div class="num">№1</div><div class="lbl" data-i18n="st4">лучший автосервис 2025 по версии 2ГИС</div></div>
+    </div>
+
+    <div class="sec-head rv" style="margin-top:110px">
+      <div><div class="eyebrow" data-i18n="svcEye">Услуги</div><h2 data-i18n="svcTitle">Всё, что нужно машине — в одном месте</h2></div>
+      <p data-i18n="svcLead">Работаем с легковыми авто всех марок. Запчасти и расходники — в нашем автомагазине прямо на территории.</p>
+    </div>
+    <div class="services">
+      <article class="svc rv"><span class="n">01</span><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3v5.5M12 15.5V21M3 12h5.5M15.5 12H21"/></svg></div><h3 data-i18n="s1t">Шиномонтаж</h3><p data-i18n="s1d">Переобувка, балансировка, ремонт проколов, хранение шин. Есть выездной шиномонтаж.</p></article>
+      <article class="svc rv"><span class="n">02</span><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg></div><h3 data-i18n="s2t">Замена масел и жидкостей</h3><p data-i18n="s2d">Моторное, АКПП, ГУР, тормозная жидкость, антифриз, все фильтры.</p></article>
+      <article class="svc rv"><span class="n">03</span><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="m7 12 2.5-3 2.5 4 2-2.5 3 1.5M8 21h8"/></svg></div><h3 data-i18n="s3t">Компьютерная диагностика</h3><p data-i18n="s3d">Считываем ошибки, находим причину и объясняем простыми словами.</p></article>
+      <article class="svc rv"><span class="n">04</span><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v4M12 18v4M8 6h8l-1 3H9zM9 15h6l1 3H8z"/><path d="M10 9v6M14 9v6" stroke-dasharray="1.6 1.6"/></svg></div><h3 data-i18n="s4t">Ходовая часть</h3><p data-i18n="s4d">Пневмоподвеска, стойки, колодки, проточка тормозных дисков.</p></article>
+      <article class="svc rv"><span class="n">05</span><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div><h3 data-i18n="s5t">Кондиционер и электрика</h3><p data-i18n="s5d">Заправка кондиционера, стартеры, генераторы, инжекторы, автооптика.</p></article>
+      <article class="svc rv"><span class="n">06</span><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15l2-6a2 2 0 0 1 2-1.5h10A2 2 0 0 1 19 9l2 6v3H3z"/><circle cx="7.5" cy="15" r="1.2"/><circle cx="16.5" cy="15" r="1.2"/><path d="M12 2l.7 1.6L14 4l-1.3.6L12 6l-.7-1.4L10 4l1.3-.4z"/></svg></div><h3 data-i18n="s6t">Кузов и полировка</h3><p data-i18n="s6d">Кузовной ремонт, сварочные работы, полировка фар.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="why">
+  <div class="wrap why-grid">
+    <div class="why-img rv">
+      <img src="{{master}}" alt="Мастер Zverservice за шиномонтажом" loading="lazy">
+      <div class="tag"><b>5.0</b><span data-i18n="whyTag">«Голова и руки на месте. За машину не страшно» — из отзыва в 2ГИС</span></div>
+    </div>
+    <div class="rv">
+      <div class="eyebrow" data-i18n="whyEye">Почему мы</div>
+      <h2 data-i18n="whyTitle">Сервис, к которому возвращаются</h2>
+      <div class="why-list">
+        <div class="why-item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3"/></svg></div><div><h3 data-i18n="w1t">Показываем на видео</h3><p data-i18n="w1d">Снимаем узлы на видео — вы видите их состояние своими глазами.</p></div></div>
+        <div class="why-item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><div><h3 data-i18n="w2t">Честные цены</h3><p data-i18n="w2d">Называем стоимость заранее и не навязываем лишних услуг.</p></div></div>
+        <div class="why-item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-1.5 11h-15zM8 9V6a4 4 0 0 1 8 0v3"/></svg></div><div><h3 data-i18n="w3t">Запчасти на месте</h3><p data-i18n="w3d">Свой автомагазин Zvertuning: масла, фильтры, расходники — в наличии и под заказ.</p></div></div>
+        <div class="why-item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><h3 data-i18n="w4t">Удобная запись</h3><p data-i18n="w4d">Пишите в WhatsApp — подберём время, чтобы вы не стояли в очереди.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="prices">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="eyebrow" data-i18n="prEye">Цены</div><h2 data-i18n="prTitle">Прозрачный прайс</h2></div>
+      <p data-i18n="prLead">Ориентировочная стоимость работ и товаров. Точную цену назовём после осмотра.</p>
+    </div>
+    <div class="tabs rv" role="tablist" id="tabs">
+      <button class="tab" role="tab" aria-selected="true" data-tab="p1" data-i18n="tab1">Масла и жидкости</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="p2" data-i18n="tab2">Ремонт и шины</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="p3" data-i18n="tab3">Диагностика</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="p4" data-i18n="tab4">Автотовары</button>
+    </div>
+    <div class="rv">
+      <div class="price-panel active" id="p1">
+        <div class="row"><span class="name" data-i18n="pr_oil">Замена моторного масла</span><i class="dots"></i><span class="val">7 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_akpp">Замена масла в АКПП</span><i class="dots"></i><span class="val">10 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_gur">Замена масла в ГУР</span><i class="dots"></i><span class="val">5 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_filter">Замена фильтра</span><i class="dots"></i><span class="val">2 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_plugs">Замена свечей</span><i class="dots"></i><span class="val">4 000 – 30 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_brakefl">Замена тормозной жидкости</span><i class="dots"></i><span class="val">10 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_anti">Замена антифриза</span><i class="dots"></i><span class="val">10 000 ₸</span></div>
+      </div>
+      <div class="price-panel" id="p2">
+        <div class="row"><span class="name" data-i18n="pr_tire">Шиномонтаж</span><i class="dots"></i><span class="val">4 600 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_pads">Замена тормозных колодок</span><i class="dots"></i><span class="val">4 000 – 10 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_ac">Заправка кондиционера</span><i class="dots"></i><span class="val">7 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_heater">Ремонт печки</span><i class="dots"></i><span class="val">15 000 – 50 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_seal">Замена сальника</span><i class="dots"></i><span class="val">3 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_muffler">Сварка глушителя</span><i class="dots"></i><span class="val">2 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_polish">Полировка фар</span><i class="dots"></i><span class="val">4 000 ₸</span></div>
+      </div>
+      <div class="price-panel" id="p3">
+        <div class="row"><span class="name" data-i18n="pr_diag">Компьютерная диагностика</span><i class="dots"></i><span class="val">3 000 – 10 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_diag2">Видеоотчёт о состоянии узлов</span><i class="dots"></i><span class="val" data-i18n="free">бесплатно</span></div>
+      </div>
+      <div class="price-panel" id="p4">
+        <div class="row"><span class="name" data-i18n="pr_bulbs">Лампочки</span><i class="dots"></i><span class="val">400 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_wipers">Дворники</span><i class="dots"></i><span class="val">1 500 – 3 500 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_splugs">Свечи зажигания</span><i class="dots"></i><span class="val">1 500 – 12 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_filters">Фильтры</span><i class="dots"></i><span class="val">1 500 – 15 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_antiG">Антифриз</span><i class="dots"></i><span class="val">1 500 – 10 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_padsG">Тормозные колодки</span><i class="dots"></i><span class="val">3 500 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_washer">Омывающая жидкость</span><i class="dots"></i><span class="val">1 500 – 2 000 ₸</span></div>
+        <div class="row"><span class="name" data-i18n="pr_frame">Рамка для номера</span><i class="dots"></i><span class="val">1 000 ₸</span></div>
+      </div>
+      <p class="price-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span data-i18n="prNote">Цены указаны по данным 2ГИС и могут меняться — уточняйте в WhatsApp.</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="eyebrow" data-i18n="gEye">Работы</div><h2 data-i18n="gTitle">Как это выглядит у нас</h2></div>
+      <p data-i18n="gLead">Боксы, шиномонтаж, магазин запчастей и машины наших клиентов.</p>
+    </div>
+    <div class="gallery rv">
+      <button class="g1"><img src="{{porsche}}" alt="Porsche Macan в боксе" loading="lazy"></button>
+      <button class="g2"><img src="{{tire}}" alt="Шиномонтаж" loading="lazy"></button>
+      <button><img src="{{lexus}}" alt="Lexus на обслуживании" loading="lazy"></button>
+      <button><img src="{{diag}}" alt="Оборудование для диагностики" loading="lazy"></button>
+      <button class="g5"><img src="{{shop}}" alt="Автомагазин запчастей" loading="lazy"></button>
+      <button><img src="{{brakes}}" alt="Ремонт тормозов" loading="lazy"></button>
+      <button><img src="{{sign}}" alt="Вывеска Zvertuning" loading="lazy"></button>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" class="why">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="eyebrow" data-i18n="rEye">Отзывы</div><h2 data-i18n="rTitle">Что говорят клиенты</h2></div>
+      <p data-i18n="rLead">132 отзыва и рейтинг 5.0 в 2ГИС. Вот несколько из них.</p>
+    </div>
+    <div class="reviews">
+      <figure class="rev rv"><div class="stars">★★★★★</div><q>Лучший сервис, всё чётко по делу без лишних «тут то, тут это». После их работы машина как новая. И нагреть тебя не пытаются.</q><figcaption class="who"><span class="av">R</span><span><b>Ravil P.</b><span data-i18n="visits7">7 посещений</span></span></figcaption></figure>
+      <figure class="rev rv"><div class="stars">★★★★★</div><q>Честный и понимающий. Взял меньше, чем изначально озвучил, нашёл доп. проблемы и бесплатно продиагностировал. Ещё и на видео всё показывает.</q><figcaption class="who"><span class="av">М</span><span><b>Марк Ф.</b><span data-i18n="fromKazan">ехал из Казани</span></span></figcaption></figure>
+      <figure class="rev rv"><div class="stars">★★★★★</div><q>Ребята действительно золотые руки! Поменяли радиатор, всё тщательно проверили, заменили масло и все фильтры.</q><figcaption class="who"><span class="av">S</span><span><b>Sabina S.</b>Suzuki Vitara</span></figcaption></figure>
+      <figure class="rev rv"><div class="stars">★★★★★</div><q>Быстро, чётко, без лишних разговоров устранил несколько неисправностей, и цены приемлемые! Ещё и масло поменяли.</q><figcaption class="who"><span class="av">Ш</span><span><b>Шолпан С.</b><span data-i18n="visits2">2 посещения</span></span></figcaption></figure>
+      <figure class="rev rv"><div class="stars">★★★★★</div><q>Мастер Диас всё сделал как надо: устранил хруст в колодках, убрал неприятный запах с кондера — и всё по адекватной цене!</q><figcaption class="who"><span class="av">A</span><span><b>Adilet T.</b><span data-i18n="visits1">1 посещение</span></span></figcaption></figure>
+      <figure class="rev rv"><div class="stars">★★★★★</div><q>Написала — ответил сразу, записалась на удобное время, шины поменяли на раз-два-три. Отлично работают ребята!</q><figcaption class="who"><span class="av">С</span><span><b>Светлана С.</b><span data-i18n="visits1">1 посещение</span></span></figcaption></figure>
+    </div>
+    <div class="rev-foot rv"><a class="btn btn-ghost" href="https://2gis.kz/almaty/firm/70000001030945610/tab/reviews" target="_blank" rel="noopener"><span data-i18n="allReviews">Все отзывы в 2ГИС</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
+  </div>
+</section>
+
+<section id="contacts">
+  <div class="wrap contact-grid">
+    <div class="panel rv">
+      <div class="eyebrow" data-i18n="bEye">Запись</div>
+      <h2 data-i18n="bTitle">Запишитесь за минуту</h2>
+      <p data-i18n="bLead">Заполните форму — откроется WhatsApp с готовым сообщением мастеру.</p>
+      <form id="bookForm" novalidate>
+        <div class="two">
+          <label><span data-i18n="fName">Ваше имя</span><input id="fName" autocomplete="given-name" data-i18n-ph="fNamePh" placeholder="Например, Арман"></label>
+          <label><span data-i18n="fCar">Автомобиль</span><input id="fCar" data-i18n-ph="fCarPh" placeholder="Toyota Camry 70"></label>
+        </div>
+        <label><span data-i18n="fSvc">Услуга</span>
+          <select id="fSvc">
+            <option data-i18n="s1t">Шиномонтаж</option>
+            <option data-i18n="s2t">Замена масел и жидкостей</option>
+            <option data-i18n="s3t">Компьютерная диагностика</option>
+            <option data-i18n="s4t">Ходовая часть</option>
+            <option data-i18n="s5t">Кондиционер и электрика</option>
+            <option data-i18n="s6t">Кузов и полировка</option>
+            <option data-i18n="fOther">Другое</option>
+          </select>
+        </label>
+        <label><span data-i18n="fTime">Удобное время</span><input id="fTime" data-i18n-ph="fTimePh" placeholder="Завтра после 15:00"></label>
+        <a class="btn btn-primary" id="bookBtn" href="https://wa.me/77072625552" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>
+          <span data-i18n="fSend">Отправить в WhatsApp</span>
+        </a>
+      </form>
+    </div>
+
+    <div class="panel info rv" style="--night:url('{{night}}')">
+      <div class="eyebrow" data-i18n="cEye">Контакты</div>
+      <h2 data-i18n="cTitle">Приезжайте на Самал-2</h2>
+      <div class="info-list">
+        <div class="info-item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div><small data-i18n="cAddr">Адрес</small><span class="v" data-i18n="cAddrV">мкр. Самал-2, 98/1, Медеуский район, Алматы</span></div></div>
+        <div class="info-item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><small data-i18n="cHours">Режим работы</small><span class="v" data-i18n="cHoursV">10:00 — 20:00, по предварительной записи</span></div></div>
+        <div class="info-item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg></div><div><small data-i18n="cPhone">Телефоны и WhatsApp</small><a href="tel:+77072625552">+7 707 262 55 52</a><br><a href="tel:+77767500001">+7 776 750 00 01</a></div></div>
+        <div class="info-item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div><small data-i18n="cPay">Оплата</small><span class="v" data-i18n="cPayV">Карта, наличные, QR, перевод</span></div></div>
+      </div>
+      <div class="btns">
+        <a class="btn btn-primary" href="https://2gis.kz/almaty/firm/70000001030945610" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 19-9-9 19-2-8z"/></svg><span data-i18n="route">Маршрут в 2ГИС</span></a>
+        <a class="btn btn-ghost" href="https://www.instagram.com/zverservice/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg>@zverservice</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div><b style="color:var(--text);font-family:var(--display)">ZVERSERVICE</b> · <span data-i18n="foot">© 2026 · Автосервис в Алматы</span></div>
+    <div class="socials">
+      <a href="https://www.instagram.com/zverservice/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+      <a href="https://wa.me/77072625552" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 21l1.6-4.7A9 9 0 1 1 8 19.6z"/></svg></a>
+      <a href="https://2gis.kz/almaty/firm/70000001030945610" target="_blank" rel="noopener" aria-label="2GIS"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<a class="fab" href="https://wa.me/77072625552" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>
+</a>
+
+<div class="lightbox" id="lb" role="dialog" aria-modal="true"><button class="x" aria-label="Закрыть">×</button><img alt=""></div>
+
+<script>
+const KK = {
+  logoSub:"Автосервис · Алматы",
+  navServices:"Қызметтер", navPrices:"Бағалар", navGallery:"Жұмыстар", navReviews:"Пікірлер", navContacts:"Байланыс",
+  chipRating:"2ГИС-те 5.0 · 304 баға",
+  chipAward:"2025 жылғы үздік автосервис — 2ГИС сыйлығы",
+  heroTitle:"Адал жөндейміз.<br><em>Жылдам істейміз.</em>",
+  heroLead:"Кез келген маркадағы көліктерге шина монтажы, май ауыстыру, диагностика және жүріс бөлігін жөндеу — Lada-дан Tesla-ға дейін. Не ауыстырып жатқанымызды және неге екенін бейнеге түсіріп көрсетеміз.",
+  ctaWa:"WhatsApp арқылы жазылу",
+  metaAddrV:"Самал-2, 98/1", metaAddr:"Медеу ауданы", metaTime:"алдын ала жазылу бойынша",
+  st1:"2ГИС-тегі орташа рейтинг", st2:"клиенттерден баға", st3:"көлік маркасына қызмет көрсетеміз", st4:"2ГИС бағалауы бойынша 2025 жылғы үздік автосервис",
+  svcEye:"Қызметтер", svcTitle:"Көлікке керектің бәрі — бір жерде",
+  svcLead:"Барлық маркадағы жеңіл көліктермен жұмыс істейміз. Қосалқы бөлшектер мен шығын материалдары — аумақтағы өз автодүкенімізде.",
+  s1t:"Шина монтажы", s1d:"Маусымдық шина ауыстыру, теңгеру, тесікті жамау, шиналарды сақтау. Шақыру бойынша шина монтажы да бар.",
+  s2t:"Май мен сұйықтықтарды ауыстыру", s2d:"Мотор майы, АКПП, ГУР, тежегіш сұйықтығы, антифриз, барлық сүзгілер.",
+  s3t:"Компьютерлік диагностика", s3d:"Қателерді оқимыз, себебін табамыз және түсінікті тілмен түсіндіреміз.",
+  s4t:"Жүріс бөлігі", s4d:"Пневмоаспа, амортизатор тіреулері, тежегіш қалыптары, тежегіш дискілерін жону.",
+  s5t:"Кондиционер және электрика", s5d:"Кондиционерге фреон толтыру, стартер, генератор, инжектор, автооптика.",
+  s6t:"Шанақ және жылтырату", s6d:"Шанақты жөндеу, дәнекерлеу жұмыстары, фараларды жылтырату.",
+  whyTag:"«Басы да, қолы да орнында. Көлікке алаңдамайсың» — 2ГИС-тегі пікірден",
+  whyEye:"Неге біз", whyTitle:"Клиенттер қайта оралатын сервис",
+  w1t:"Бейнеге түсіріп көрсетеміз", w1d:"Тораптарды бейнеге түсіреміз — олардың жағдайын өз көзіңізбен көресіз.",
+  w2t:"Адал баға", w2d:"Бағаны алдын ала айтамыз, артық қызмет таңбаймыз.",
+  w3t:"Бөлшектер осында", w3d:"Өзіміздің Zvertuning автодүкені: майлар, сүзгілер, шығын материалдары — қоймада бар және тапсырыспен.",
+  w4t:"Ыңғайлы жазылу", w4d:"WhatsApp-қа жазыңыз — кезек күтпейтіндей уақыт таңдап береміз.",
+  prEye:"Бағалар", prTitle:"Ашық прайс", prLead:"Жұмыстар мен тауарлардың шамамен құны. Нақты бағаны тексергеннен кейін айтамыз.",
+  tab1:"Майлар мен сұйықтықтар", tab2:"Жөндеу және шиналар", tab3:"Диагностика", tab4:"Автотауарлар",
+  pr_oil:"Мотор майын ауыстыру", pr_akpp:"АКПП майын ауыстыру", pr_gur:"ГУР майын ауыстыру", pr_filter:"Сүзгіні ауыстыру",
+  pr_plugs:"Оталдыру білтелерін ауыстыру", pr_brakefl:"Тежегіш сұйықтығын ауыстыру", pr_anti:"Антифризді ауыстыру",
+  pr_tire:"Шина монтажы", pr_pads:"Тежегіш қалыптарын ауыстыру", pr_ac:"Кондиционерге фреон толтыру", pr_heater:"Жылытқышты (пешті) жөндеу",
+  pr_seal:"Сальникті ауыстыру", pr_muffler:"Бәсеңдеткішті (глушитель) дәнекерлеу", pr_polish:"Фараларды жылтырату",
+  pr_diag:"Компьютерлік диагностика", pr_diag2:"Тораптардың жағдайы туралы бейнеесеп", free:"тегін",
+  pr_bulbs:"Шамдар", pr_wipers:"Әйнек тазалағыштар", pr_splugs:"Оталдыру білтелері", pr_filters:"Сүзгілер", pr_antiG:"Антифриз",
+  pr_padsG:"Тежегіш қалыптары", pr_washer:"Әйнек жуғыш сұйықтық", pr_frame:"Нөмір жақтауы",
+  prNote:"Бағалар 2ГИС деректері бойынша көрсетілген және өзгеруі мүмкін — WhatsApp арқылы нақтылаңыз.",
+  gEye:"Жұмыстар", gTitle:"Бізде бәрі осылай", gLead:"Бокстар, шина монтажы, қосалқы бөлшектер дүкені және клиенттеріміздің көліктері.",
+  rEye:"Пікірлер", rTitle:"Клиенттер не дейді", rLead:"2ГИС-те 132 пікір және 5.0 рейтинг. Солардың бірнешеуі.",
+  visits7:"7 рет келген", fromKazan:"Қазаннан келген", visits2:"2 рет келген", visits1:"1 рет келген",
+  allReviews:"2ГИС-тегі барлық пікірлер",
+  bEye:"Жазылу", bTitle:"Бір минутта жазылыңыз", bLead:"Форманы толтырыңыз — шеберге дайын хабарламамен WhatsApp ашылады.",
+  fName:"Есіміңіз", fNamePh:"Мысалы, Арман", fCar:"Көлік", fCarPh:"Toyota Camry 70", fSvc:"Қызмет", fOther:"Басқа",
+  fTime:"Ыңғайлы уақыт", fTimePh:"Ертең 15:00-ден кейін", fSend:"WhatsApp-қа жіберу",
+  cEye:"Байланыс", cTitle:"Самал-2-ге келіңіз", cAddr:"Мекенжай", cAddrV:"Самал-2 ш/а, 98/1, Медеу ауданы, Алматы",
+  cHours:"Жұмыс уақыты", cHoursV:"10:00 — 20:00, алдын ала жазылу бойынша", cPhone:"Телефондар және WhatsApp",
+  cPay:"Төлем", cPayV:"Карта, қолма-қол, QR, аударым", route:"2ГИС-те бағыт",
+  foot:"© 2026 · Алматыдағы автосервис"
+};
+const MSG = {
+  ru:(n,c,s,t)=>`Здравствуйте! Хочу записаться в Zverservice.\nИмя: ${n||'—'}\nАвто: ${c||'—'}\nУслуга: ${s}\nВремя: ${t||'—'}`,
+  kk:(n,c,s,t)=>`Сәлеметсіз бе! Zverservice-ке жазылғым келеді.\nЕсімім: ${n||'—'}\nКөлік: ${c||'—'}\nҚызмет: ${s}\nУақыт: ${t||'—'}`
+};
+
+const root=document.documentElement;
+const RU={};
+document.querySelectorAll('[data-i18n]').forEach(el=>{RU[el.dataset.i18n]??=el.innerHTML});
+document.querySelectorAll('[data-i18n-ph]').forEach(el=>{RU[el.dataset.i18nPh]??=el.placeholder});
+const dict=l=>l==='kk'?KK:RU;
+let lang='ru';
+function applyLang(l){
+  const d=dict(l);
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const v=d[el.dataset.i18n];if(v!=null)el.innerHTML=v});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const v=d[el.dataset.i18nPh];if(v!=null)el.placeholder=v});
+  root.setAttribute('lang',l); lang=l; updateBook();
+}
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let switching=false;
+document.getElementById('langBtn').addEventListener('click',()=>{
+  if(switching)return; switching=true;
+  const next=lang==='ru'?'kk':'ru';
+  try{localStorage.setItem('zv-lang',next)}catch(e){}
+  if(reduce){applyLang(next);switching=false;return}
+  root.setAttribute('lang',next); // slide the thumb immediately
+  document.body.classList.add('lang-out');
+  setTimeout(()=>{
+    applyLang(next);
+    document.body.classList.remove('lang-out');
+    document.body.classList.add('lang-in');
+    setTimeout(()=>{document.body.classList.remove('lang-in');switching=false},480);
+  },230);
+});
+
+/* theme */
+const themeBtn=document.getElementById('themeBtn');
+function setTheme(t){root.setAttribute('data-theme',t);document.querySelector('meta[name=theme-color]').content=t==='dark'?'#0e0f11':'#f3f1ec';try{localStorage.setItem('zv-theme',t)}catch(e){}}
+themeBtn.addEventListener('click',e=>{
+  const next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+  if(!document.startViewTransition||reduce){setTheme(next);return}
+  const r=themeBtn.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
+  const R=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+  root.classList.add('no-tr');
+  const vt=document.startViewTransition(()=>setTheme(next));
+  vt.finished.finally(()=>root.classList.remove('no-tr'));
+  vt.ready.then(()=>{root.animate({clipPath:[`circle(0px at ${x}px ${y}px)`,`circle(${R}px at ${x}px ${y}px)`]},{duration:700,easing:'cubic-bezier(.7,0,.25,1)',pseudoElement:'::view-transition-new(root)'})}).catch(()=>{});
+});
+setTheme(root.getAttribute('data-theme'));
+
+/* header */
+const hdr=document.getElementById('hdr');
+const onScroll=()=>hdr.classList.toggle('scrolled',scrollY>30);
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+const mnav=document.getElementById('mnav');
+const burger=document.getElementById('burger');burger.setAttribute('aria-expanded','false');
+burger.addEventListener('click',()=>{const o=mnav.classList.toggle('open');burger.setAttribute('aria-expanded',o)});
+mnav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mnav.classList.remove('open');burger.setAttribute('aria-expanded','false')}));
+
+/* marquee */
+const brands="Toyota Lexus Mercedes-Benz BMW Audi Hyundai Kia Chevrolet Lada Tesla Zeekr Lixiang Haval Chery Geely Volkswagen Nissan Mitsubishi Subaru Porsche Land Rover Honda Mazda Exeed".split(' ');
+const fixB=[];for(let i=0;i<brands.length;i++){if(brands[i]==='Land'){fixB.push('Land Rover');i++}else fixB.push(brands[i])}
+const mq=document.getElementById('marquee');
+mq.innerHTML=[...fixB,...fixB].map(b=>`<span>${b}</span>`).join('');
+
+/* reveal + counters */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el=>{const p=el.parentElement;if(p.classList.contains('services')||p.classList.contains('reviews')){el.style.transitionDelay=([...p.children].indexOf(el)%3)*90+'ms'}io.observe(el)});
+document.querySelectorAll('.rv').forEach(el=>el.addEventListener('transitionend',()=>{el.style.transitionDelay=''},{once:true}));
+const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;cio.unobserve(e.target);const el=e.target,to=+el.dataset.count,t0=performance.now(),D=1400;
+  const step=t=>{const p=Math.min(1,(t-t0)/D),v=Math.round(to*(1-Math.pow(1-p,3)));el.textContent=v;if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}),{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>{if(reduce)el.textContent=el.dataset.count;else cio.observe(el)});
+
+/* tabs */
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x===t));
+  document.querySelectorAll('.price-panel').forEach(p=>p.classList.toggle('active',p.id===t.dataset.tab));
+}));
+
+/* lightbox */
+const lb=document.getElementById('lb'),lbImg=lb.querySelector('img');
+let lastBtn=null;
+const closeLb=()=>{if(!lb.classList.contains('open'))return;lb.classList.remove('open');lastBtn&&lastBtn.focus()};
+document.querySelectorAll('.gallery button').forEach(b=>b.addEventListener('click',()=>{const i=b.querySelector('img');lbImg.src=i.src;lbImg.alt=i.alt;lastBtn=b;lb.classList.add('open');lb.querySelector('.x').focus()}));
+lb.addEventListener('click',e=>{if(e.target!==lbImg)closeLb()});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeLb()});
+
+/* booking -> whatsapp link */
+const f={n:document.getElementById('fName'),c:document.getElementById('fCar'),s:document.getElementById('fSvc'),t:document.getElementById('fTime')};
+const bookBtn=document.getElementById('bookBtn');
+function updateBook(){
+  const s=f.s.options[f.s.selectedIndex]?.textContent.trim()||'';
+  const text=MSG[lang](f.n.value.trim(),f.c.value.trim(),s,f.t.value.trim());
+  bookBtn.href='https://wa.me/77072625552?text='+encodeURIComponent(text);
+}
+Object.values(f).forEach(el=>el.addEventListener('input',updateBook));
+document.getElementById('bookForm').addEventListener('submit',e=>{e.preventDefault();updateBook();bookBtn.click()});
+['fName','fCar','fTime'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();updateBook();bookBtn.click()}}));
+
+/* initial language */
+if(root.getAttribute('lang')==='kk'){applyLang('kk')}else{updateBook()}
+</script>
+</body>
+</html>
